@@ -1363,7 +1363,7 @@ body::after {
   width: 125px;
   overflow: hidden !important;
   height: 125px;
-  border-radius: 50%;
+  border-radius: 50% !important;
   border: 3px solid #fff;
   z-index: 10;
 }
