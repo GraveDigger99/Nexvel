@@ -3879,7 +3879,7 @@
     proggresBar.offsetWidth;
     var progressLineWidth = progressLine.offsetWidth;
     console.log(progressLineWidth);
-    var proggresLineWidthMobile = progressLine.offsetWidth - 20;
+    var proggresLineWidthMobile = progressLine.offsetWidth;
     console.log(proggresLineWidthMobile);
     var progressLineWidthMore = progressLine.offsetWidth;
     console.log(progressLineWidthMore);
