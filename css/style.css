@@ -758,7 +758,7 @@ body::after {
   position: fixed;
   top: 0;
   left: 0;
-  background: #fafafa;
+  background-color: #fafafa !important;
   width: 100%;
   z-index: 1000;
 }
