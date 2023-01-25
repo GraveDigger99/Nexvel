@@ -3878,8 +3878,11 @@
     let proggresBar = document.querySelector(".stepper__bar");
     proggresBar.offsetWidth;
     var progressLineWidth = progressLine.offsetWidth;
+    console.log(progressLineWidth);
     var proggresLineWidthMobile = progressLine.offsetWidth - 20;
+    console.log(proggresLineWidthMobile);
     var progressLineWidthMore = progressLine.offsetWidth;
+    console.log(progressLineWidthMore);
     var addWith = progressLineWidth / 3;
     var addWithMore = progressLineWidthMore / 4;
     var addWithMobile = proggresLineWidthMobile / 3;
