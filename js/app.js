@@ -160,32 +160,8 @@
                     } else this.popupLogging(`Ой ой, не заполнен атрибут у ${buttonOpen.classList}`);
                     return;
                 }
-                const buttonClose = e.target.closest(`[${this.options.attributeCloseButton}]`);
-                if (buttonClose || !e.target.closest(`.${this.options.classes.popupContent}`) && this.isOpen) {
-                    e.preventDefault();
-                    this.close();
-                    return;
-                }
+                e.target.closest(`[${this.options.attributeCloseButton}]`);
             }.bind(this));
-            document.addEventListener("keydown", function(e) {
-                if (this.options.closeEsc && 27 == e.which && "Escape" === e.code && this.isOpen) {
-                    e.preventDefault();
-                    this.close();
-                    return;
-                }
-                if (this.options.focusCatch && 9 == e.which && this.isOpen) {
-                    this._focusCatch(e);
-                    return;
-                }
-            }.bind(this));
-            if (this.options.hashSettings.goHash) {
-                window.addEventListener("hashchange", function() {
-                    if (window.location.hash) this._openToHash(); else this.close(this.targetOpen.selector);
-                }.bind(this));
-                window.addEventListener("load", function() {
-                    if (window.location.hash) this._openToHash();
-                }.bind(this));
-            }
         }
         open(selectorValue) {
             if (bodyLockStatus) {
@@ -3573,7 +3549,9 @@
             observeParents: true,
             slidesPerView: 1,
             spaceBetween: 0,
+            autoHeight: true,
             speed: 800,
+            loop: true,
             navigation: {
                 prevEl: ".swiper-button-prev",
                 nextEl: ".swiper-button-next"
@@ -3605,7 +3583,7 @@
             modules: [ Navigation, Autoplay ],
             observer: true,
             observeParents: true,
-            speed: 5e3,
+            speed: 6e3,
             slidesPerView: "auto",
             spaceBetween: 30,
             loop: true,
@@ -3747,6 +3725,37 @@
             scrollDirection = scrollTop <= 0 ? 0 : scrollTop;
         }));
     }
+    function digitsCounter() {
+        if (document.querySelectorAll("[data-digits-counter]").length) document.querySelectorAll("[data-digits-counter]").forEach((element => {
+            element.dataset.digitsCounter = element.innerHTML;
+            element.innerHTML = `0`;
+        }));
+        function digitsCountersInit(digitsCountersItems) {
+            let digitsCounters = digitsCountersItems ? digitsCountersItems : document.querySelectorAll("[data-digits-counter]");
+            if (digitsCounters.length) digitsCounters.forEach((digitsCounter => {
+                digitsCountersAnimate(digitsCounter);
+            }));
+        }
+        function digitsCountersAnimate(digitsCounter) {
+            let startTimestamp = null;
+            const duration = parseInt(digitsCounter.dataset.digitsCounterSpeed) ? parseInt(digitsCounter.dataset.digitsCounterSpeed) : 1e3;
+            const startValue = parseInt(digitsCounter.dataset.digitsCounter);
+            const startPosition = 0;
+            const step = timestamp => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                digitsCounter.innerHTML = Math.floor(progress * (startPosition + startValue));
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        }
+        function digitsCounterAction(e) {
+            const entry = e.detail.entry;
+            const targetElement = entry.target;
+            if (targetElement.querySelectorAll("[data-digits-counter]").length) digitsCountersInit(targetElement.querySelectorAll("[data-digits-counter]"));
+        }
+        document.addEventListener("watcherCallback", digitsCounterAction);
+    }
     setTimeout((() => {
         if (addWindowScrollEvent) {
             let windowScroll = new Event("windowScroll");
@@ -3857,25 +3866,35 @@
     let stepperStep = document.querySelector(".stepper__bar");
     let nextBtns = document.querySelectorAll("[data-next]");
     const nexFinishBtn = document.querySelector("[data-nex-finish]");
+    const popupStepper = document.querySelector("#popup-stepper");
     nexFinishBtn.addEventListener("click", (function(e) {
         document.documentElement.classList.remove("stepper-open");
-        document.documentElement.classList.remove("lock");
         location.reload();
+        document.documentElement.classList.remove("popup-show");
+        document.documentElement.classList.remove("lock");
+        popupStepper.classList.remove("popup_show");
     }));
     let progressLine = document.querySelector(".stepper__line");
     let proggresBar = document.querySelector(".stepper__bar");
     proggresBar.offsetWidth;
-    var progressLineWidth = progressLine.offsetWidth - 20;
+    var progressLineWidth = progressLine.offsetWidth;
+    var proggresLineWidthMobile = progressLine.offsetWidth - 20;
+    var progressLineWidthMore = progressLine.offsetWidth;
     var addWith = progressLineWidth / 3;
-    if (window.innerWidth < 767.98) proggresBar.style.width = addWith + "px";
+    var addWithMore = progressLineWidthMore / 4;
+    var addWithMobile = proggresLineWidthMobile / 3;
+    if (window.innerWidth < 991.98) proggresBar.style.width = addWith + "px"; else proggresBar.style.width = addWithMore + "px";
+    if (window.innerWidth < 680) proggresBar.style.width = addWithMobile + "px";
     let moveItem = () => {
         const currentpos = stepperStep.style.left.match(/\d+/g);
-        if (window.innerWidth > 992) stepperStep.style.left = currentpos ? +currentpos[0] + 11 + "%" : "11%";
-        if (window.innerWidth < 992 && window.innerWidth > 767.98) stepperStep.style.left = currentpos ? +currentpos[0] + 33 + "%" : "33";
-        if (window.innerWidth < 767.98) {
+        if (window.innerWidth < 991.98) {
             stepperStep.style.left = currentpos ? +currentpos[0] + addWith + "px" : addWith + "px";
             console.log(stepperStep);
+        } else {
+            stepperStep.style.left = currentpos ? +currentpos[0] + addWithMore + "px" : addWithMore + "px";
+            console.log(stepperStep);
         }
+        if (window.innerWidth < 680) stepperStep.style.left = currentpos ? +currentpos[0] + addWithMobile + "px" : addWithMobile + "px";
     };
     nextBtns.forEach((function(item, i, arr) {
         item.addEventListener("click", moveItem);
@@ -3906,4 +3925,5 @@
     isWebp();
     menuInit();
     headerScroll();
+    digitsCounter();
 })();
