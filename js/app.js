@@ -3883,17 +3883,32 @@
     var addWith = progressLineWidth / 3;
     var addWithMore = progressLineWidthMore / 4;
     var addWithMobile = proggresLineWidthMobile / 3;
-    if (window.innerWidth < 991.98) proggresBar.style.width = addWith + "px";
-    if (window.innerWidth > 991.98) proggresBar.style.width = addWithMore + "px";
-    if (window.innerWidth < 680) proggresBar.style.width = addWithMobile + "px";
+    if (window.innerWidth > 991.98) {
+        proggresBar.style.width = addWithMore + "px";
+        console.log(addWithMore);
+    }
+    if (window.innerWidth < 991.98 && window.innerWidth > 680) {
+        proggresBar.style.width = addWith + "px";
+        console.log(addWith);
+    }
+    if (window.innerWidth < 680) {
+        proggresBar.style.width = addWithMobile + "px";
+        console.log(addWithMobile);
+    }
     let moveItem = () => {
         const currentpos = stepperStep.style.left.match(/\d+/g);
-        if (window.innerWidth > 991.98) stepperStep.style.left = currentpos ? +currentpos[0] + addWithMore + "px" : addWithMore + "px";
-        if (window.innerWidth < 991.98) {
+        if (window.innerWidth > 991.98) {
+            stepperStep.style.left = currentpos ? +currentpos[0] + addWithMore + "px" : addWithMore + "px";
+            console.log(stepperStep);
+        }
+        if (window.innerWidth < 991.98 && window.innerWidth > 680) {
             stepperStep.style.left = currentpos ? +currentpos[0] + addWith + "px" : addWith + "px";
             console.log(stepperStep);
         }
-        if (window.innerWidth < 680) stepperStep.style.left = currentpos ? +currentpos[0] + addWithMobile + "px" : addWithMobile + "px";
+        if (window.innerWidth < 680) {
+            stepperStep.style.left = currentpos ? +currentpos[0] + addWithMobile + "px" : addWithMobile + "px";
+            console.log(stepperStep);
+        }
     };
     nextBtns.forEach((function(item, i, arr) {
         item.addEventListener("click", moveItem);
