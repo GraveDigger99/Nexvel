@@ -758,9 +758,9 @@ body::after {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #fff;
+  background: #fafafa;
   width: 100%;
-  z-index: 10;
+  z-index: 1000;
 }
 
 .header__container {
