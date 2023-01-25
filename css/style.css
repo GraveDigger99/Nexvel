@@ -2818,6 +2818,16 @@ body::after {
     padding: 40px 30px 60px 30px;
   }
 
+  .item-business__button {
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+
+  .item-business__button-telegram {
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+
   .item-business__description {
     position: absolute;
     top: 0;
