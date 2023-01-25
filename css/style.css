@@ -1360,11 +1360,11 @@ body::after {
 .item-worse__avatar::after {
   content: "";
   position: absolute;
-  width: 118px;
-  overflow: hidden;
-  height: 118px;
+  width: 125px;
+  overflow: hidden !important;
+  height: 125px;
   border-radius: 50%;
-  outline: 3px solid #fff;
+  border: 3px solid #fff;
   z-index: 10;
 }
 
@@ -1374,6 +1374,7 @@ body::after {
   content: "";
   width: 132px;
   height: 132px;
+  outline: 3px solid #fff;
   border-radius: 50%;
   outline: 2px solid #fff;
   background: rgb(133, 147, 255);
@@ -3009,8 +3010,8 @@ body::after {
   }
 
   .item-worse__avatar::after {
-    width: 70px;
-    height: 70px;
+    width: 75px;
+    height: 75px;
   }
 
   .item-worse__avatar::before {
